@@ -1,0 +1,21 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: install deps
+      run: sudo apt-get install libfuse-dev libarchive-dev xfsprogs btrfs-tools && pip install yamlish junit_xml
+    - uses: actions/checkout@v2
+    - name: make
+      run: make -C tools/lkl
+    - name: run tests
+      run: cd tools/lkl && make run-tests
