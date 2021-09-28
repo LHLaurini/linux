@@ -21,7 +21,7 @@ jobs:
       run: cd tools/lkl && make run-tests
       continue-on-error: true
     - name: install
-      run: make -C tools/lkl install DESTDIR=install
+      run: make -C tools/lkl install DESTDIR=$PWD/install
     - name: tar
       run: cd install && tar cJf lkl.tar.xz .
     - name: Upload a Build Artifact
