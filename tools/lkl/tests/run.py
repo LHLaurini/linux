@@ -106,7 +106,7 @@ for t in args.tests:
         if subprocess.call(t, shell=True) != 0:
             exit_code = 1
     else:
-        p = subprocess.Popen(t, shell=True, stdout=subprocess.PIPE)
+        p = subprocess.Popen(t, shell=True, stdout=subprocess.PIPE, encoding='UTF-8')
         tap.parse(p.stdout)
 
 if args.pass_through:
