@@ -19,3 +19,13 @@ jobs:
       run: make -C tools/lkl
     - name: run tests
       run: cd tools/lkl && make run-tests
+      continue-on-error: true
+    - name: install
+      run: make -C tools/lkl install DESTDIR=install
+    - name: tar
+      run: cd install && tar cJf lkl.tar.xz .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: build
+        path: install/lkl.tar.xz
