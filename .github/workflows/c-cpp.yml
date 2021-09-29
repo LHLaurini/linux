@@ -23,7 +23,7 @@ jobs:
     - name: install
       run: make -C tools/lkl install DESTDIR=$PWD/install
     - name: tar
-      run: cd install && tar cJf lkl.tar.xz .
+      run: cd install && tar cvJf lkl.tar.xz .
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
