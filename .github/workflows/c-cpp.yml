@@ -1,0 +1,31 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: install deps
+      run: sudo apt-get install libfuse-dev libarchive-dev xfsprogs btrfs-progs && pip install yamlish junit_xml
+    - uses: actions/checkout@v2
+    - name: make
+      run: make -C tools/lkl
+    - name: run tests
+      run: cd tools/lkl && make run-tests
+      continue-on-error: true
+    - name: install
+      run: make -C tools/lkl install DESTDIR=$PWD/install
+    - name: tar
+      run: cd install && tar cvJf lkl.tar.xz usr
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: build
+        path: install/lkl.tar.xz
